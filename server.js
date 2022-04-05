@@ -11,15 +11,15 @@ process.on("uncaughtException", err => {
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
 
-// const DB = process.env.DATABASE.replace(
-//   "<PASSWORD>",
-//   process.env.DATABASE_PASSWORD
-// );
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
 
 // const DB_LOCAL = process.env.DATABASE_LOCAL;
-const DB_LOCAL = "mongodb://localhost:27017/natours";
+//const DB_LOCAL = "mongodb://localhost:27017/natours";
 mongoose
-  .connect(DB_LOCAL, {
+  .connect(DB, {
     useNewUrlParser: true
   })
   .then(() => console.log("DB connection successfull!"))
