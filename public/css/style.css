@@ -30,7 +30,7 @@ html {
 body {
   line-height: 1.6;
   font-weight: 300;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #777;
   padding: 3rem;
   min-height: 100vh;
@@ -552,7 +552,7 @@ body {
 }
 
 .marker {
-  background-image: url("../img/pin.png");
+  background-image: url('../img/pin.png');
   background-size: cover;
   width: 32px;
   height: 40px;
@@ -565,7 +565,7 @@ body {
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   padding: 1.5rem !important;
   font-size: 1.4rem;
   -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
@@ -629,7 +629,7 @@ body {
 }
 .reviews:before,
 .reviews:after {
-  content: "";
+  content: '';
   width: 2rem;
 }
 .reviews__avatar {
@@ -830,6 +830,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  justify-content: flex-end;
 }
 .footer__nav li {
   margin-left: 1.5rem;
@@ -893,7 +894,6 @@ body {
   -ms-flex-pack: end;
   justify-content: flex-end;
 }
-
 .nav__el,
 .nav__el:link,
 .nav__el:visited {
@@ -1230,34 +1230,6 @@ body {
   box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.06);
   padding: 5rem 7rem;
   border-radius: 5px;
-}
-
-.auth__form-container_fields-account {
-  padding-top: 2rem;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  margin-top: 0.2rem;
-}
-
-.auth__form-container_fields-account p {
-  padding-right: 1rem;
-
-  font-size: 15px;
-  color: #000;
-  font-weight: 500;
-}
-
-.auth__form-container_fields-account span {
-  color: #55c57a;
-  cursor: pointer;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-.auth__form-container_fields-account a {
-  text-decoration: none;
 }
 
 .form__input {
