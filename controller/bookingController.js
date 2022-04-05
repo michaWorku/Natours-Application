@@ -1,9 +1,11 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const Stripe = require("stripe");
 const Booking = require("../models/bookingModel");
 const Tour = require("../models/tourModel");
 
 const catchAsync = require("../utils/catchAsync");
 const factory = require("./handlerFactory");
+
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
