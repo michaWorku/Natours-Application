@@ -1,25 +1,27 @@
-/* eslint-disable */
-import axios from 'axios';
-import { showAlert } from './alerts';
-
-// type is either 'password' or 'data'
+/* eslint-disable*/
+import axios from "axios";
+import { showAlert } from "./alerts";
 export const updateSettings = async (data, type) => {
   try {
-    const url =
-      type === 'password'
-        ? '/api/v1/users/updateMyPassword'
-        : '/api/v1/users/updateMe';
-
+    const url = `http://127.0.0.1:3000/api/v1/users/${type}`;
+    const method = type === "forgotPassword" ? "POST" : "PATCH";
     const res = await axios({
-      method: 'PATCH',
+      method,
       url,
       data
     });
-
-    if (res.data.status === 'success') {
-      showAlert('success', `${type.toUpperCase()} updated successfully!`);
+    console.log(res);
+    if (res.data.status === "success") {
+      showAlert(
+        "success",
+        res.data.message ||
+          `${(type = "updateMe" ? "data" : "password")} updated successfully`
+      );
+      window.setTimeout(() => {
+        // location.reload(true);
+      }, 1500);
     }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
+  } catch (error) {
+    showAlert("error", error.response.data.message);
   }
 };
