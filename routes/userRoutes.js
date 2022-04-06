@@ -29,7 +29,7 @@ router.use(authController.restrictTo("admin"));
 router
   .route("/")
   .get(userController.getAllUsers)
-  .post(userController.createNewUser);
+  .post(userController.createUser);
 
 router
   .route("/:id")
