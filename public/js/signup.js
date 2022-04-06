@@ -5,7 +5,7 @@ export const signup = async data => {
   try {
     const res = await axios({
       method: "POST",
-      url: "https://natours-app-mw.herokuapp.com/api/v1/users/signup",
+      url: "/api/v1/users/signup",
       data
     });
     console.log(res);

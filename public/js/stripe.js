@@ -2,13 +2,13 @@
 import axios from "axios";
 
 import { showAlert } from "./alerts";
-const stripe = Stripe("pk_test_BUkd0ZXAj6m0q0jMyRgBxNns00PPtgvjjr");
+const stripe = Stripe("pk_test_51K09Y6DH2tNBqogE1C7sxCHNSBXVJ22ysQiWLpvFg4cW9shgMLV2S7NjL76Uar2VP5Nimc0JZamcol7YTZSUV4rC00205P0Lhi");
 
 export const bookTour = async tourId => {
   try {
     // 1) Get checkout session from API
     const session = await axios(
-      `https://natours-app-mw.herokuapp.com/api/v1/bookings/checkout-session/${tourId}`
+      `/api/v1/bookings/checkout-session/${tourId}`
     );
     console.log(session);
 
