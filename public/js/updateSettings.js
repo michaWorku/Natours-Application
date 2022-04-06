@@ -3,7 +3,7 @@ import axios from "axios";
 import { showAlert } from "./alerts";
 export const updateSettings = async (data, type) => {
   try {
-    const url = `https://natours-app-mw.herokuapp.com/api/v1/users/${type}`;
+    const url = `/api/v1/users/${type}`;
     const method = type === "forgotPassword" ? "POST" : "PATCH";
     const res = await axios({
       method,
