@@ -34,7 +34,7 @@ app.use(cors());
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
 // app.use(cors({
-//   origin: 'https://www.natours.com'
+//   origin: "https://natours-app-mw.herokuapp.com/",
 // }))
 
 app.options('*', cors());
