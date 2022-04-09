@@ -5,6 +5,7 @@ import { login, logout } from "./login.js";
 import { updateSettings } from "./updateSettings";
 import { signup } from "./signup";
 import { bookTour } from "./stripe";
+import { showAlert } from './alerts'
 
 // DOM ELEMENTS
 const mapBox = document.getElementById("map");
@@ -14,13 +15,13 @@ const userDataForm = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-password");
 const singupForm = document.querySelector(".form--signup");
 const forgotPasswordForm = document.querySelector(".form--forgot-password");
-const bookBtn = document.getElementById("book-tour");
+const bookTourBtn = document.getElementById("book-tour");
 
 //DELEGATION
-// if (mapbox) {
-//   const locations = JSON.parse(mapBox.dataset.locations);
-//   displayMap(locations);
-// }
+if (mapBox) {
+  const locations = JSON.parse(mapBox.dataset.locations);
+  displayMap(locations);
+}
 
 if (loginForm) {
   loginForm.addEventListener("submit", e => {
@@ -99,10 +100,19 @@ if (forgotPasswordForm) {
   });
 }
 
-// if (bookBtn) {
-//   bookBtn.addEventListener("click", e => {
-//     e.target.textContent = "Processing...";
-//     const { tourId } = e.target.dataset;
-//     bookTour(tourId);
-//   });
-// }
+if (bookTourBtn) {
+  bookTourBtn.addEventListener("click", (e) => {
+    console.log('clickd')
+    // Changing text
+    e.target.innerHTML = "Processing...";
+    // destructuring, otherwise do dataset.tourId. Even the getAttribute function works as used above for locations.
+    const { tourId } = e.target.dataset;
+    bookTour(tourId);
+  });
+}
+
+const messageAlert = document.querySelector("body").getAttribute("data-alert");
+
+if (messageAlert) {
+  showAlert("success", messageAlert, 12);
+}

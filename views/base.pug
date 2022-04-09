@@ -3,12 +3,13 @@ html
     block head 
         meta(charset='UTF-8')
         meta(name='viewport' content = 'width=device-width, initial-scale=1.0')
+        //meta(http-equiv="Content-Security-Policy" content="default-src 'self' gap:; script-src 'self' data: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; object-src *; style-src 'self' data: 'unsafe-inline'; img-src 'self' data:; media-src 'self' data:; font-src 'self' data:; connect-src *")
         link(href="https://fonts.googleapis.com/css?family=Lato:300,300i,700" rel="stylesheet")
         link(rel='stylesheet' href='/css/style.css')
         link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
         title Natours | #{title}
         
-    body 
+    body(data-alert=`${alert ? alert : ''}`) 
         // HEADER
         include _header
 
@@ -19,6 +20,8 @@ html
         // FOOTER
         include _footer
         
-        script(src='https://js.stripe.com/v3/')
         script(src='/js/bundle.js')
+        script(src='https://js.stripe.com/v3/')
+        
+        
         
