@@ -6,7 +6,8 @@ export const signup = async data => {
     const res = await axios({
       method: "POST",
       url: "/api/v1/users/signup",
-      data
+      data,
+      withCredentials: true,
     });
     console.log(res);
     if (res.data.status === "success") {
