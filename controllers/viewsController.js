@@ -21,7 +21,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     .render("overview", {
       title: "Exciting Tours for adventurous people!",
       tours,
-      heading: "All Tours",
+      user: res.locals
     });
   // This data is called locals in the pug file
 });
@@ -45,7 +45,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
       "default-src 'self' https://*.mapbox.com https://*.stripe.com  ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://api.mapbox.com https://*.stripe.com 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-reqs;"
     )
     .render("tour", {
-      title: tour.name,
+      title: `${tour.name} Tour`,
       tour,
     });
 });
@@ -152,8 +152,7 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
     )
     .render("overview", {
       title: "Your Booked Tours",
-      tours: bookedTours,
-      heading: "Your Booked Tours",
+      tours: bookedTours
     });
 });
 
