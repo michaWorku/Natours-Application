@@ -1,6 +1,6 @@
 // ALWAYS RE-BUILD THE PARCEL BUNDLE, EVERYTIME YOU MAKE CHANGES IN THE FRONT-END.
 const Tour = require("../models/tourModel");
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
 const Booking = require("../models/bookingModel");
