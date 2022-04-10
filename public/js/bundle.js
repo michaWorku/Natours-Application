@@ -8905,8 +8905,8 @@ var login = /*#__PURE__*/function () {
               data: {
                 email: email,
                 password: password
-              } //withCredentials: true,
-
+              },
+              withCredentials: true
             });
 
           case 3:
@@ -8953,8 +8953,8 @@ var logout = /*#__PURE__*/function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: "GET",
-              url: "/api/v1/users/logout" //withCredentials: true,
-
+              url: "/api/v1/users/logout",
+              withCredentials: true
             });
 
           case 3:

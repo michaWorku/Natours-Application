@@ -11,7 +11,7 @@ export const login = async (email, password) => {
         email,
         password
       },
-      //withCredentials: true,
+      withCredentials: true,
     });
 
     if (res.data.status === "success") {
@@ -30,7 +30,7 @@ export const logout = async () => {
     const res = await axios({
       method: "GET",
       url: "/api/v1/users/logout",
-      //withCredentials: true,
+      withCredentials: true,
     });
     if (res.data.status === "success") {
       location.reload(true);
