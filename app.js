@@ -30,21 +30,28 @@ app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
-app.use(cors());
+const options = {
+  origin: "*",
+};
+
+app.use(cors(options));
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
 // app.use(cors({
 //   origin: "https://natours-app-mw.herokuapp.com/",
 // }))
 
-app.options('*', cors());
+////////////////////////////////////  PREFLIGHT CHECK ///////////////////////////////////
+// REVIEW:
+// Options is not to create any new options in our application. Its just a method like get or post,that we have to respond to. The browser sends a request to the server asking if the method is safe to perform. We need to respond to it.
+app.options("*", cors());
 // app.options('/api/v1/tours/:id', cors());
-
-// Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet());
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
