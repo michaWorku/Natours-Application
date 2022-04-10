@@ -26,9 +26,9 @@ const createSendToken = (user, statusCode, res) => {
     secure: request.secure || request.headers["x-forwarded-proto"] === "https",
   };
   // Sent only via HTTPS during production. However not all production are https or secure.
-  // if (process.env.NODE_ENV === "production") {
-  //   cookieOptions.secure = true;
-  // }
+  if (process.env.NODE_ENV === "production") {
+    cookieOptions.secure = true;
+  }
 
   res.cookie("jwt", token, cookieOptions);
 
