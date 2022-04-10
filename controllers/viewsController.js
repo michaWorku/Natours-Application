@@ -21,7 +21,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     .render("overview", {
       title: "Exciting Tours for adventurous people!",
       tours,
-      user: res.locals
+      user: res.locals.user
     });
   // This data is called locals in the pug file
 });
