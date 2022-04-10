@@ -12,7 +12,8 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   const tours = await Tour.find({});
   // 2. Build template
   // 3. Render the website from the data received from step 1
-  console.log({res})
+  console.log({locals: res.locals})
+  console.log({reqUser: req.user})
   res
     .status(200)
     .set(
@@ -22,7 +23,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     .render("overview", {
       title: "Exciting Tours for adventurous people!",
       tours,
-      user: res.locals.user
+      user: req.user
     });
   // This data is called locals in the pug file
 });
