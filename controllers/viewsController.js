@@ -12,6 +12,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   const tours = await Tour.find({});
   // 2. Build template
   // 3. Render the website from the data received from step 1
+  console.log(res.locals.user)
   res
     .status(200)
     .set(

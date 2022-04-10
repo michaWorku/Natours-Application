@@ -103,7 +103,7 @@ section.section-cta
       h2.heading-secondary What are you waiting for?
       p.cta__text 10 days. 1 adventure. Infinite memories. Make it yours today!
       
-      if user
+      if user != null
         button.btn.btn--green.span-all-rows Book tour now!
       else
         a.btn.btn--green.span-all-rows(href="/login") Login to book tour
