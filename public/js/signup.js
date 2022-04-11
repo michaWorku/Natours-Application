@@ -9,12 +9,12 @@ export const signup = async data => {
       data,
       withCredentials: true,
     });
-    
+
     if (res.data.status === "success") {
       showAlert("success", "Sign up  successfully!");
       window.setTimeout(() => {
         location.assign("/");
-      }, 1500);
+      }, 1000);
     }
   } catch (err) {
     showAlert("error", err.response.data.message);

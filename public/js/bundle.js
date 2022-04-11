@@ -8917,7 +8917,7 @@ var login = /*#__PURE__*/function () {
               (0, _alerts.showAlert)("success", "Logged in successfully!");
               window.setTimeout(function () {
                 location.assign("/");
-              }, 1500);
+              }, 1000);
             }
 
             console.log(res);
@@ -9099,7 +9099,7 @@ var signup = /*#__PURE__*/function () {
               (0, _alerts.showAlert)("success", "Sign up  successfully!");
               window.setTimeout(function () {
                 location.assign("/");
-              }, 1500);
+              }, 1000);
             }
 
             _context.next = 10;

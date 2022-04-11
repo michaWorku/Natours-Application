@@ -5,6 +5,14 @@ const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
 const Booking = require("../models/bookingModel");
 
+exports.setSecurityPolicy = (_, res, next) => {
+  res.set(
+    'Content-Security-Policy',
+    "default-src 'self' https://*.mapbox.com https://*.stripe.com/v3/ ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://api.mapbox.com https://js.stripe.com/v3/ 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests;"
+  );
+  next();
+};
+
 exports.getOverview = catchAsync(async (req, res, next) => {
   // It searches in the view folder as we have specified on line 39 and knows its pug as we have specified the view engine.
 
@@ -39,10 +47,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
   res
     .status(200)
-    .set(
-      "Content-Security-Policy",
-      "default-src 'self' https://*.mapbox.com https://*.stripe.com  ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://api.mapbox.com https://*.stripe.com 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-reqs;"
-    )
     .render("tour", {
       title: `${tour.name} Tour`,
       tour,
@@ -145,10 +149,6 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 
   return res
     .status(200)
-    .set(
-      "Content-Security-Policy",
-      "default-src 'self' https://*.stripe.com https://stripe.com  ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://*.stripe.com 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-reqs;"
-    )
     .render("overview", {
       title: "Your Booked Tours",
       tours: bookedTours
