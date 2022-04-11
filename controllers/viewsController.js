@@ -16,14 +16,9 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   console.log({reqUser: req.user})
   res
     .status(200)
-    .set(
-      "Content-Security-Policy",
-      "default-src 'self' stripe.com *.stripe.com *.googleapis.com googleapis.com *.gstatic.com gstatic.com; font-src *.googleapis.com googleapis.com *.gstatic.com gstatic.com; style-src 'self' https: 'unsafe-inline';upgrade-insecure-reqs;"
-    )
     .render("overview", {
       title: "Exciting Tours for adventurous people!",
-      tours,
-      user: req.user
+      tours
     });
   // This data is called locals in the pug file
 });
