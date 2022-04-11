@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lgope/Natours.git"
+    "url": "git+https://github.com/michaWorku/Natours-Application.git"
   },
-  "author": "Lakshman Gope",
+  "author": "Mikias Worku",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lgope/Natours/issues"
+    "url": "https://github.com/michaWorku/Natours-Application/issues"
   },
-  "homepage": "https://github.com/lgope/Natours#readme",
+  "homepage": "https://github.com/michaWorku/Natours-Application/blob/main/README.md",
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
     "a": "^2.1.2",
