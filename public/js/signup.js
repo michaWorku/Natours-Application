@@ -9,7 +9,7 @@ export const signup = async data => {
       data,
       withCredentials: true,
     });
-    console.log(res);
+    
     if (res.data.status === "success") {
       showAlert("success", "Sign up  successfully!");
       window.setTimeout(() => {
