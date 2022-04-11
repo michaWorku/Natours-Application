@@ -1,77 +1,58 @@
-// ALWAYS RE-BUILD THE PARCEL BUNDLE, EVERYTIME YOU MAKE CHANGES IN THE FRONT-END.
-const Tour = require("../models/tourModel");
-const AppError = require("../utils/appError");
-const catchAsync = require("../utils/catchAsync");
-const User = require("../models/userModel");
-const Booking = require("../models/bookingModel");
+const Tour = require('../models/tourModel');
+const User = require('../models/userModel');
+const Booking = require('../models/bookingModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking')
+    res.locals.alert =
+      "Your booking was successful! Please check your email for a confirmation. If your booking doesn't show up here immediatly, please come back later.";
+  next();
+};
 
 exports.getOverview = catchAsync(async (req, res, next) => {
-  // It searches in the view folder as we have specified on line 39 and knows its pug as we have specified the view engine.
+  // 1) Get tour data from collection
+  const tours = await Tour.find();
 
-  // 1. Get tour data from collection
-  const tours = await Tour.find({});
-  // 2. Build template
-  // 3. Render the website from the data received from step 1
-  console.log({locals: res.locals})
-  console.log({reqUser: req.user})
-  res
-    .status(200)
-    .render("overview", {
-      title: "Exciting Tours for adventurous people!",
-      tours
-    });
-  // This data is called locals in the pug file
+  // 2) Build template
+  // 3) Render that template using tour data from 1)
+  res.status(200).render('overview', {
+    title: 'All Tours',
+    tours
+  });
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
-  // Retreiving the slug
-  const { slug } = req.params;
-  const tour = await Tour.findOne({ slug: slug }).populate({
-    path: "reviews",
-    fields: "review rating user",
+  // 1) Get the data, for the requested tour (including reviews and guides)
+  const tour = await Tour.findOne({ slug: req.params.slug }).populate({
+    path: 'reviews',
+    fields: 'review rating user'
   });
 
   if (!tour) {
-    return next(new AppError("No tour found by that name", 404));
+    return next(new AppError('There is no tour with that name.', 404));
   }
 
-  res
-    .status(200)
-    .set(
-      "Content-Security-Policy",
-      "default-src 'self' https://*.mapbox.com https://*.stripe.com  ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://api.mapbox.com https://*.stripe.com 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-reqs;"
-    )
-    .render("tour", {
-      title: `${tour.name} Tour`,
-      tour,
-    });
+  // 2) Build template
+  // 3) Render template using data from 1)
+  res.status(200).render('tour', {
+    title: `${tour.name} Tour`,
+    tour
+  });
 });
 
-exports.getLoginForm = catchAsync(async (req, res, next) => {
-  if (!res.locals.user) {
-    res.status(200).render("login", {
-      title: "Log Into your account",
-    });
-  } else {
-    res.redirect("/");
-  }
-});
+exports.getLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Log into your account'
+  });
+};
 
 exports.getSignUpForm = catchAsync(async (req, res, next) => {
   if (!res.locals.user) {
     res.status(200).render("signup", {
       title: "Sign Up for an account",
-    });
-  } else {
-    res.redirect("/");
-  }
-});
-
-exports.getAccount = catchAsync(async (req, res) => {
-  // We don't query for current user as its already been done in the protect middleware.
-  if (res.locals.user) {
-    res.status(200).render("account", {
-      title: "Your Account",
     });
   } else {
     res.redirect("/");
@@ -90,76 +71,41 @@ exports.getForgetPasswordForm = (req, res) => {
  
 };
 
-exports.updateUserData = catchAsync(async (req, res) => {
-  // A req is sent with the body to the specified URL and gets called here. Now req.body won't work as we have to parse data coming from a form using URLEncoded.
-  // console.log(req.body);
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your account'
+  });
+};
 
-  // req.user.id works, res.locals.user.id also works as we have specified both in our protect middleware.
+exports.getMyTours = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings
+  const bookings = await Booking.find({ user: req.user.id });
+
+  // 2) Find tours with the returned IDs
+  const tourIDs = bookings.map(el => el.tour);
+  const tours = await Tour.find({ _id: { $in: tourIDs } });
+
+  res.status(200).render('overview', {
+    title: 'My Tours',
+    tours
+  });
+});
+
+exports.updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
-    res.locals.user.id,
+    req.user.id,
     {
-      // We gave them these names in the HTML form. Only name and email must be updated.
       name: req.body.name,
-      email: req.body.email,
+      email: req.body.email
     },
     {
       new: true,
-      runValidators: true,
+      runValidators: true
     }
   );
 
-  // Anything other than email and name is stripped away from the body for security. Hence we execute the above code to prevent any additional fields being passed.(using inspect element, adding new fields lol.)
-  // Never update password like this as we must run the save middleware and encrypt our password.
-
-  res.status(200).render("account", {
-    title: "Your Account",
-    // the old(before update) user in the account pug template comes from locals which comes from the protect middleware, hence it won't change until we log in again. To make it instant, we specify the updatedUser so that the account pug template uses this.
-    user: updatedUser,
+  res.status(200).render('account', {
+    title: 'Your account',
+    user: updatedUser
   });
 });
-// I think the data passed in the event handler holds more priority than the locals object.
-
-exports.getMyTours = catchAsync(async (req, res, next) => {
-  ////////////////// WE COULD ALSO USE VIRTUAL POPULATE ////////////////////
-  // 1. Find the bookings wrt user ID.
-  const bookings = await Booking.find({ user: req.user.id });
-
-  // 2. Creating an array of toursID's and query for their respective tours.
-  const tourIds = bookings.map((el) => el.tour);
-  // Method 2a.
-  // const bookedTours = await Promise.all(
-  //   tourIds.map(async (tourId) => await Tour.findById(tourId))
-  // );
-
-  // Method 2b. in is a mongodb operator. tours in the tourIds array.
-  // 3.Find the tours related with that booking using the returned ids.
-  const bookedTours = await Tour.find({ _id: { $in: tourIds } });
-
-  if (bookedTours.length === 0) {
-    return res.status(404).render("error", {
-      message: "You have no booked tours!",
-    });
-  }
-
-  return res
-    .status(200)
-    .set(
-      "Content-Security-Policy",
-      "default-src 'self' https://*.stripe.com https://stripe.com  ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://*.stripe.com 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-reqs;"
-    )
-    .render("overview", {
-      title: "Your Booked Tours",
-      tours: bookedTours
-    });
-});
-
-exports.alerts = (req, res, next) => {
-  const { alert } = req.query;
-
-  // In the stripe docs, it mentions that sometimes the webhook is called a little after the success url is called.
-  if (alert === "booking") {
-    res.locals.alert =
-      "Your booking was successful. Please check your email for a confirmation and more information. \n\t If your booking doesn't show up here immediately, please check back later.";
-  }
-  next();
-};
